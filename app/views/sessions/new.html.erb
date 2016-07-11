@@ -1,9 +1,11 @@
 <div class="container">
   <div class="form-horizontal">
-    <h1 class="text-center" style="font-size: 350%;">Login</h1>
 
+    <%= render 'shared/errors' %>
 
-    <%= form_for(@user, url: sessions_path) do |f| %>
+    <h1 class="text-center" style="font-size: 350%;">Login to BrokerStream</h1>
+
+    <%= form_for(@user, url: sessions_create_path) do |f| %>
 
     <div class="form-group">
       <%= f.label :username, class: "col-lg-2 control-label" %>
