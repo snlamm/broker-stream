@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="form-horizontal">
+    <%= render 'shared/flash' %>
+    <h1 class="text-center">Create Deal Sheet</h1>
+
+
+    <%= form_for(@deal_sheet) do |f| %>
+
+    <div class="form-group">
+      <%= f.label :details, class: "col-lg-2 control-label"%>
+      <div class="col-lg-10">
+        <%= f.text_field :details, class: "form-control", placeholder: "Desired Address" %>
+      </div>
+    </div>
+
+    <% end %>
+
+    <div class="ui-widget">
+  <label for="tags">Tags: </label>
+  <input id="tags">
+</div>
+  </div>
+</div>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>

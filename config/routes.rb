@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
-  get 'login',     to: 'sessions#new'
+  root 'deal_sheets#new'
+  resources 'deal_sheets', only: :create
 
+  get 'login',     to: 'sessions#new'
   post 'sessions/create'
 
   get 'logout',   to: 'sessions#destroy'
