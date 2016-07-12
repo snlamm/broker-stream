@@ -4,16 +4,17 @@
     <h1 class="text-center">Create Deal Sheet</h1>
 
 
-    <%= form_for(@deal_sheet) do |f| %>
+    <%= form_for @deal_sheet, url: deal_sheets_path do |f| %>
 
     <div class="form-group">
-      <%= f.label :details, class: "col-lg-2 control-label"%>
+      <%= f.label :details, "Desired Address", class: "col-lg-2 control-label"%>
       <div class="col-lg-10">
-        <%= f.text_field :details, class: "form-control", placeholder: "Desired Address" %>
+        <%= f.text_field :details, class: "form-control", placeholder: "Enter address here", value: "" %>
       </div>
     </div>
 
     <% end %>
+
 
     <div class="ui-widget">
   <label for="tags">Tags: </label>
