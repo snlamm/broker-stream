@@ -27,7 +27,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'bcrypt', '~> 3.1.7'
 
 gem 'figaro'
-
+gem 'google_drive'
 # gem 'bootstrap-sass'
 
 # Use Capistrano for deployment

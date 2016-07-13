@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   root 'deal_sheets#new'
   resources 'deal_sheets', only: :create
-
+  get 'oauth2callback', to: 'deal_sheets#redirect'
   get 'login',     to: 'sessions#new'
   post 'sessions/create'
 

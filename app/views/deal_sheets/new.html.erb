@@ -3,23 +3,23 @@
     <%= render 'shared/flash' %>
     <h1 class="text-center">Create Deal Sheet</h1>
 
-
+    <br><br>
     <%= form_for @deal_sheet, url: deal_sheets_path do |f| %>
 
-    <div class="form-group">
-      <%= f.label :details, "Desired Address", class: "col-lg-2 control-label"%>
+    <div class="form-group ui-widget" id="half-page">
+      <%= f.label :details, "Address", class: "col-lg-2 control-label"%>
       <div class="col-lg-10">
-        <%= f.text_field :details, class: "form-control", placeholder: "Enter address here", value: "" %>
+        <%= f.text_field :details, class:"col-lg-8", placeholder: "Enter address here", value: "", id: 'tags' %>
+      </div>
+      <div class="col-lg-10 col-lg-offset-2">
+        <br>
+        <%= f.submit "Generate Deal Sheet", class: "btn" %>
       </div>
     </div>
 
     <% end %>
 
 
-    <div class="ui-widget">
-  <label for="tags">Tags: </label>
-  <input id="tags">
-</div>
   </div>
 </div>
 
