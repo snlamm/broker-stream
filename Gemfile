@@ -26,13 +26,18 @@ gem 'jbuilder', '~> 2.5'
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 
+# gem to create hidden files
 gem 'figaro'
+# gem to use google drive
 gem 'google_drive'
 # gem 'bootstrap-sass'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+# 2 gems to create generate pdfs
+gem 'wkhtmltopdf-binary'
+gem 'wicked_pdf'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
