@@ -1,47 +1,29 @@
 require "googleauth"
 class DealSheetsController < ApplicationController
-  @@address = nil
-  @@credentials = Google::Auth::UserRefreshCredentials.new(
-    client_id: ENV["google_id"],
-    client_secret: ENV["google_secret"],
-    scope: [
-      "https://www.googleapis.com/auth/drive.readonly",
-      "https://spreadsheets.google.com/feeds/",
-    ],
-    redirect_uri: "http://localhost:3000/oauth2callback")
-  # Redirect the user to auth_url and get authorization code from redirect URL.
+
+  @@drive_extractor
+
   def new
-    # example input: 24 Ash Road
+    # example input: 3 Maple Ave
     @deal_sheet = DealSheet.new
   end
 
   def create
-    @@address = deal_sheet_params["details"]
-    # @deal_sheet = DealSheet.new
+    address = deal_sheet_params["details"]
+    @@drive_extractor = DriveExtractor.new(address)
     begin
-      @@credentials.refresh_token = ENV["google_refresh"]
-      @@credentials.fetch_access_token!
-      session = GoogleDrive.login_with_oauth(@@credentials)
-      use_session(session)
+      row_data = @@drive_extractor.login_with_refresh_token
+      build_deal_sheet(row_data)
     rescue
-      auth_url = @@credentials.authorization_uri
-      redirect_url = auth_url.origin + auth_url.request_uri
+      redirect_url = @@drive_extractor.authorization_token_url
       redirect_to redirect_url
     end
   end
 
   def redirect
-    # for refactor do code = params["code"], then pass code into the adaptor method
-    @@credentials.code = params["code"]
-    @@credentials.fetch_access_token!
-    session = GoogleDrive.login_with_oauth(@@credentials)
-    use_session(session)
-  end
-
-  def use_session(session)
-    sheet_rows = session.spreadsheet_by_title("Test Real Estate Data").worksheets[0].rows
-    target = sheet_rows.detect {|row| row[0] == @@address}
-    binding.pry
+    code = params["code"]
+    row_data = @@drive_extractor.login_from_redirect(code)
+    build_deal_sheet(row_data)
   end
 
   def pdf
@@ -51,5 +33,16 @@ class DealSheetsController < ApplicationController
   private
   def deal_sheet_params
     params.require(:deal_sheet).permit(:details)
+  end
+
+  def build_deal_sheet(row_data)
+    # address = row_data['ADDRESS']
+    # binding.pry
+    # deal_sheet = DealSheet.find_or_create_by(details: {'ADDRESS' => address})
+    deal_sheet = DealSheet.new
+    deal_sheet.details = row_data
+    deal_sheet.save
+    # create an address column for dealsheet and use that in a find or create_by
+    # set a token for deal_sheet
   end
 end
