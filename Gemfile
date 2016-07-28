@@ -36,8 +36,9 @@ gem 'google_drive'
 # gem 'capistrano-rails', group: :development
 
 # 2 gems to create generate pdfs
-gem 'wkhtmltopdf-binary'
-gem 'wicked_pdf'
+# gem 'wkhtmltopdf-binary'
+# gem 'wicked_pdf'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri

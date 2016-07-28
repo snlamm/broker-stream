@@ -43,13 +43,7 @@ class DealSheetsController < ApplicationController
   end
 
   def pdf
-    binding.pry
-    pdf = render_to_string pdf: "some_file_name", template: "deal_sheets/template.html.erb", encoding: "UTF-8"
-
-    save_path = Rails.root.join('app','pdfs','deal_template.pdf')
-    File.open(save_path, 'wb') do |file|
-      file << pdf
-    end
+    render 'deal_sheets/template', layout: false
   end
 
   private
