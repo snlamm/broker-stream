@@ -1,6 +1,5 @@
-require "googleauth"
-class DealSheetsController < ApplicationController
-  @@address = nil
+class DriveExtractor
+
   @@credentials = Google::Auth::UserRefreshCredentials.new(
     client_id: ENV["google_id"],
     client_secret: ENV["google_secret"],
@@ -9,20 +8,19 @@ class DealSheetsController < ApplicationController
       "https://spreadsheets.google.com/feeds/",
     ],
     redirect_uri: "http://localhost:3000/oauth2callback")
-  # Redirect the user to auth_url and get authorization code from redirect URL.
-  def new
-    # example input: 24 Ash Road
-    @deal_sheet = DealSheet.new
+
+  attr_reader :address
+
+  def initialize(address)
+    @address = address
   end
 
-  def create
-    @@address = deal_sheet_params["details"]
-    # @deal_sheet = DealSheet.new
+  def google_login
     begin
       @@credentials.refresh_token = ENV["google_refresh"]
       @@credentials.fetch_access_token!
       session = GoogleDrive.login_with_oauth(@@credentials)
-      use_session(session)
+      get_row_data(session)
     rescue
       auth_url = @@credentials.authorization_uri
       redirect_url = auth_url.origin + auth_url.request_uri
@@ -30,26 +28,19 @@ class DealSheetsController < ApplicationController
     end
   end
 
-  def redirect
-    # for refactor do code = params["code"], then pass code into the adaptor method
-    @@credentials.code = params["code"]
+
+  def google_redirect_for_access_token(oauth_code)
+    @@credentials.code = oauth_code
     @@credentials.fetch_access_token!
     session = GoogleDrive.login_with_oauth(@@credentials)
-    use_session(session)
+    get_row_data(session)
   end
 
-  def use_session(session)
+  def get_row_data(google_session)
     sheet_rows = session.spreadsheet_by_title("Test Real Estate Data").worksheets[0].rows
-    target = sheet_rows.detect {|row| row[0] == @@address}
-    binding.pry
+    target = sheet_rows.detect {|row| row[0] == @address}
   end
 
-  def pdf
-    render 'deal_sheets/template', layout: false
   end
 
-  private
-  def deal_sheet_params
-    params.require(:deal_sheet).permit(:details)
-  end
 end
