@@ -43,7 +43,6 @@ class DealSheetsController < ApplicationController
   end
 
   def build_deal_sheet(row_data)
-    binding.pry
     deal_sheet = DealSheet.new
     deal_sheet.details = row_data
     deal_sheet.save

@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   root 'deal_sheets#new'
   resources 'deal_sheets',  only: :create
-  get 'deal_sheets/:token', to: 'deal_sheets#show'
+  get 'deal_sheets/:token', to: 'deal_sheets#show', as: 'deal_sheet_show'
   get 'oauth2callback',     to: 'deal_sheets#redirect'
 
 
