@@ -47,7 +47,7 @@ class DealSheetsController < ApplicationController
     deal_sheet = DealSheet.new
     deal_sheet.details = row_data
     deal_sheet.save
-    # send email
+    DealSheetMailer.send_deal_sheet(deal_sheet).deliver_now
     # redirect to page with alert that email send for so and so address to such and such people
   end
 end
