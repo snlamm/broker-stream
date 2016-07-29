@@ -1,0 +1,55 @@
+<head>
+  <meta name="viewport" content="width=device-width" />
+
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>Deal Sheet</title>
+
+</head>
+
+
+<body>
+
+  <!-- Body content -->
+  <div style="font: 14px sans-serif;">
+
+    <br>
+
+    <p>
+      Hello,
+    </p>
+    <br>
+
+    <p>
+      A new deal sheet has been generated for <b><%= @address %></b>.
+    </p>
+    <p>
+      Please follow <%= link_to "this link", deal_sheet_show_url(@deal_sheet.confirm_token), :target => '_blank' %> to see the deal sheet online and download it as a pdf. This will require you to be logged into Broker-Stream.
+    </p>
+    <br>
+    <p>
+      Here is the deal sheet info:
+    </p>
+      <ul>
+        <% counter = 0 %>
+        <% @headers.each do |header| %>
+          <li>
+            <% if header != "" && header %>
+              <%= header %>: <b><%= @content[counter] %></b>
+            <% end %>
+          </li>
+          <br>
+          <% counter +=1 %>
+        <% end %>
+      </ul>
+
+    <div style="float: left">
+      <br>
+      <footer>
+        Brought to you by,<br><br><br>
+        <strong>Broker-Stream</strong>
+      </footer>
+    </div>
+  </div> <!-- End of Body Content -->
+
+
+</body>
