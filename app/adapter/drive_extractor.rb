@@ -38,12 +38,19 @@ class DriveExtractor
   def get_row_data(google_session)
     sheet_rows = google_session.spreadsheet_by_title("Test Real Estate Data").worksheets[0].rows
     # set headers index to whatever row has the headers
-    headers = sheet_rows[2]
+    headers = sheet_rows[4]
     details = sheet_rows.detect {|row| row[5] == @address}
-    set_headers_for_details(headers, details)
+    turn_into_hash_pairs(sheet_rows, headers, details)
   end
 
-  def set_headers_for_details(headers, details)
+  def turn_into_hash_pairs(sheet_rows, headers, details)
+    entries_with_headers = set_headers_as_keys(headers, details)
+    broker_email = add_broker_email(sheet_rows, entries_with_headers)
+    entries_with_headers['broker_email'] = broker_email
+    entries_with_headers
+  end
+
+  def set_headers_as_keys(headers, details)
     counter = 0
     entries_with_headers = {}
     headers.collect do |header|
@@ -51,6 +58,13 @@ class DriveExtractor
       counter += 1
     end
     entries_with_headers
+  end
+
+  def add_broker_email(sheet_rows, row_entries)
+    broker_info = sheet_rows[1]
+    broker_name = row_entries["House is being shown by Broker"]
+    name_location = broker_info.index(broker_name)
+    broker_email = broker_info[name_location + 1]
   end
 
 end

@@ -9,7 +9,7 @@ class DealSheetsController < ApplicationController
     if @deal_sheet
       render 'deal_sheets/deal_sheet', layout: false
     else
-      flash[:alert] = "invalid link. please resubmit the address"
+      flash[:alert] = "Invalid link. Please resubmit the address"
       redirect_to root_path
     end
   end
@@ -36,13 +36,14 @@ class DealSheetsController < ApplicationController
     row_data = @@drive_extractor.login_from_redirect(code)
     build_deal_sheet(row_data)
   end
-  
+
   private
   def deal_sheet_params
     params.require(:deal_sheet).permit(:details)
   end
 
   def build_deal_sheet(row_data)
+    binding.pry
     deal_sheet = DealSheet.new
     deal_sheet.details = row_data
     deal_sheet.save
