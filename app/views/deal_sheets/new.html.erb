@@ -1,9 +1,9 @@
 <div class="container">
   <div class="form-horizontal">
-    <%= render 'shared/flash' %>
     <h1 class="text-center">Create Deal Sheet</h1>
-
-    <br><br>
+    <br>
+    <%= render 'shared/flash' %>
+    <br>
     <%= form_for @deal_sheet, url: deal_sheets_path do |f| %>
 
     <div class="form-group ui-widget" id="half-page">
