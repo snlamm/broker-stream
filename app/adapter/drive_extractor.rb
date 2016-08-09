@@ -62,7 +62,7 @@ class DriveExtractor
 
   def add_broker_email(sheet_rows, row_entries)
     broker_info = sheet_rows[1]
-    broker_name = row_entries["House is being shown by Broker"]
+    broker_name = row_entries["House is being shown by Broker"].strip
     name_location = broker_info.index(broker_name)
     broker_email = broker_info[name_location + 1]
   end
